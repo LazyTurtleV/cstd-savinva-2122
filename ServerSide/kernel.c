@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "math.h"
 
 #include "headers/kernel.h"
 
@@ -20,6 +21,9 @@ enum role
 };
 
 void _render_board();
+int _detect_winner();
+void _announce_winner(char _winner);
+void _announce_draft();
 
 void init_game()
 {
@@ -46,12 +50,62 @@ int make_move(unsigned int _i, unsigned int _j)
 
     _game_field[_i][_j] = step % 2 ? O : X;
 
-
     ++step;
 
     _render_board();
 
     return SUCCESS;
+}
+
+int game_status()
+{
+    int winner = _detect_winner();
+    if(winner)
+    {
+        _announce_winner(winner);
+        return WINNER_FOUND;
+    }
+
+    if (step == pow(FIELD_SIZE, 2))
+    {
+        _announce_draft();
+        return DRAFT;
+    }
+
+    return GAME_CONTINUES;
+}
+
+int _detect_winner()
+{
+    for(int i = 0; i < FIELD_SIZE; i++)
+    {   
+        int isLineComplete = 1;
+        for(int j = 0; j < FIELD_SIZE; j++) 
+            isLineComplete = isLineComplete && _game_field[i][j] && _game_field[i][j] != EMPTY_CELL;
+        
+        if(isLineComplete) return  _game_field[i][0];
+    }
+
+    for(int i = 0; i < FIELD_SIZE; i++)
+    {   
+        int isColumnComplete = 1;
+        for(int j = 0; j < FIELD_SIZE; j++) 
+            isColumnComplete = isColumnComplete && _game_field[j][i] && _game_field[i][j] != EMPTY_CELL;
+        
+        if(isColumnComplete) return _game_field[0][i];
+    }
+
+    return 0;
+}
+
+void _announce_winner(char _winner)
+{
+    printf("%c wins!\n", _winner);
+}
+
+void _announce_draft()
+{
+    puts("DRAFT!\n");
 }
 
 void _render_board()
