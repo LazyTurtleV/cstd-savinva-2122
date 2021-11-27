@@ -1,11 +1,30 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(tic-tac-toe-game VERSION 0.1.0)
 
-include(CTest)
+set(PROJECT tic-tac-toe-game)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_C_STANDARD 99)
+
+set(Sources
+    main.c
+    kernel.c
+)
+    
+set(Headers
+    headers/kernel.h
+)
+    
+project(${PROJECT} C CXX)
+add_executable(${PROJECT} ${Sources})
+    
+##################################################
+#                   Testing
+##################################################
+set(TESTED_PROJECT tested_prj)
+
+#instance of project for tests
+add_library(${TESTED_PROJECT} STATIC ${Sources} ${Headers})
+
 enable_testing()
 
-add_executable(tic-tac-toe-game main.c)
-
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)
+add_subdirectory(googletest)
+add_subdirectory(tests)
