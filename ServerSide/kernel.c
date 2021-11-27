@@ -1,0 +1,69 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+#include "headers/kernel.h"
+
+#define FIELD_SIZE 3
+#define EMPTY_CELL '_'
+
+char **_game_field;
+const size_t g_FIELD_SIZE = FIELD_SIZE;
+
+size_t step = 0;
+
+
+enum role
+{
+    X = 'X',
+    O = 'O'
+};
+
+void _render_board();
+
+void init_game()
+{
+    _game_field = malloc(FIELD_SIZE * sizeof(char*));
+    for(int i = 0; i < FIELD_SIZE; i++)
+    { 
+        _game_field[i] = malloc(FIELD_SIZE);
+        memset(_game_field[i], EMPTY_CELL, FIELD_SIZE);
+    }
+}
+
+void end_game()
+{
+    for(int i = 0; i < FIELD_SIZE; i++)
+        memset(_game_field[i], EMPTY_CELL, FIELD_SIZE);
+}
+
+int make_move(unsigned int _i, unsigned int _j)
+{   
+    if (_i >= FIELD_SIZE || _j >= FIELD_SIZE) 
+        return OUT_OF_BOUNDS;
+    if(_game_field[_i][_j] != EMPTY_CELL) 
+        return CELL_IS_OCCUPIED;
+
+    _game_field[_i][_j] = step % 2 ? O : X;
+
+
+    ++step;
+
+    _render_board();
+
+    return SUCCESS;
+}
+
+void _render_board()
+{
+    for (int i = 0; i < FIELD_SIZE; i++)
+    {
+        for (int j = 0; j < FIELD_SIZE; j++)
+        {
+            printf( "%c ", _game_field[i][j]);
+        }
+        puts("\n");
+    }
+
+    fflush(stdout);
+}
