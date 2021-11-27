@@ -9,6 +9,6 @@ int make_move(unsigned int _i, unsigned int _j);
 
 #define GAME_CONTINUES 0
 #define WINNER_FOUND 1
-#define DRAFT 2
+#define DRAW 2
 
 int game_status();

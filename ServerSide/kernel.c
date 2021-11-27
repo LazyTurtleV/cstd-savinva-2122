@@ -23,7 +23,7 @@ enum role
 void _render_board();
 int _detect_winner();
 void _announce_winner(char _winner);
-void _announce_draft();
+void _announce_draw();
 
 void init_game()
 {
@@ -68,8 +68,8 @@ int game_status()
 
     if (step == pow(FIELD_SIZE, 2))
     {
-        _announce_draft();
-        return DRAFT;
+        _announce_draw();
+        return DRAW;
     }
 
     return GAME_CONTINUES;
@@ -103,9 +103,9 @@ void _announce_winner(char _winner)
     printf("%c wins!\n", _winner);
 }
 
-void _announce_draft()
+void _announce_draw()
 {
-    puts("DRAFT!\n");
+    puts("DRAW!\n");
 }
 
 void _render_board()
