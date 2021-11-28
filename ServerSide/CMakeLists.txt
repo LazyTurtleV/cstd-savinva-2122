@@ -33,24 +33,6 @@ set(HDR
     
 project(${PRJ})
 
-##################################################
-#                     Tests
-##################################################
-set(TESTED_PROJECT tested_prj)
-
-#instance of project for tests
-add_library(${TESTED_PROJECT} STATIC ${SRC} ${HDR})
-
-enable_testing()
-
-add_subdirectory(googletest)
-add_subdirectory(tests)
-
-##################################################
-#                   Firmware
-##################################################
-
-
 add_definitions(-DBAUD=${BAUD})
 set(CMAKE_EXE_LINKER_FLAGS -mmcu=${MCU})
 
