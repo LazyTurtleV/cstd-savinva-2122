@@ -3,7 +3,7 @@
 #include <string.h>
 #include "math.h"
 
-#include "headers/kernel.h"
+#include "../headers/kernel.h"
 
 #define FIELD_SIZE 3
 #define EMPTY_CELL '_'
