@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include <stdio.h>
+#include <Arduino.h>
 #include <string.h>
 #include "math.h"
 
@@ -27,12 +27,13 @@ void _announce_draw();
 
 void init_game()
 {
-    _game_field = malloc(FIELD_SIZE * sizeof(char*));
+    _game_field = (char**)malloc(FIELD_SIZE * sizeof(char*));
     for(int i = 0; i < FIELD_SIZE; i++)
     { 
-        _game_field[i] = malloc(FIELD_SIZE);
+        _game_field[i] = (char*)malloc(FIELD_SIZE);
         memset(_game_field[i], EMPTY_CELL, FIELD_SIZE);
     }
+    _render_board();
 }
 
 void end_game()
@@ -108,12 +109,13 @@ int _detect_winner()
 
 void _announce_winner(char _winner)
 {
-    printf("%c wins!\n", _winner);
+    Serial.print(_winner);
+    Serial.println("wins");
 }
 
 void _announce_draw()
 {
-    puts("DRAW!\n");
+    Serial.println("DRAW!");
 }
 
 void _render_board()
@@ -122,10 +124,9 @@ void _render_board()
     {
         for (int j = 0; j < FIELD_SIZE; j++)
         {
-            printf( "%c ", _game_field[i][j]);
+            Serial.print(_game_field[i][j]);
+            Serial.print(" ");
         }
-        puts("\n");
+        Serial.println("\n");
     }
-
-    fflush(stdout);
 }

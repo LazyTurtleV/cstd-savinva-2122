@@ -17,7 +17,10 @@ link_directories(${CMAKE_EXTERNAL_LIBS_PATH})
 
 # set source files
 
-file (GLOB Sources ${SOURCE_DIRECTORIES}/*.cpp)
+file (GLOB Sources 
+    ${SOURCE_DIRECTORIES}/*.cpp
+    ${SOURCE_DIRECTORIES}/*.c
+)
 
 set(${PROJECT_NAME}_BOARD ${BOARD_NAME})
 set(${PROJECT_NAME}_SRCS ${Sources})

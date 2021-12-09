@@ -2,18 +2,22 @@
 
 #include "../headers/kernel.h"
 
-extern "C" 
-{
-
-}
-
 void setup()
 {   
     Serial.begin(9600);
+    Serial.setTimeout(1000);
+
+    while(!Serial);
 }
 
 void loop()
-{
-    Serial.println("HELLO WORLD!!!");
-    delay(1000);
+{   
+    if(!Serial.available()) return;
+
+    char msg[100];
+    memset(msg, 0, 100);
+    
+    Serial.readBytesUntil('0', msg, 100);
+    Serial.print("Read symbol: ");
+    Serial.println(msg);
 }
