@@ -1,52 +1,27 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 2.8)
+set(PROJECT_NAME tic-tac-toe-game)
 
-set(PRJ tic-tac-toe-game)
+set(CMAKE_ARDUINO_PATH arduino-cmake)
+set(CMAKE_TOOLCHAIN_FILE ${CMAKE_ARDUINO_PATH}/cmake/ArduinoToolchain.cmake) # Arduino Toolchain
+set(CMAKE_EXTERNAL_LIBS_PATH ${CMAKE_CURRENT_SOURCE_DIR}/libraries) # arduino external libs
+set(SOURCE_DIRECTORIES src)
+set(BOARD_NAME nano328)
 
-set(CMAKE_SYSTEM_NAME Generic)
-set(CMAKE_CXX_COMPILER g++)
-set(CMAKE_C_COMPILER avr-gcc)
-set(CMAKE_ASM_COMPILER avr-gcc)
+set (CMAKE_CXX_STANDARD 11)
+project(${PROJECT_NAME} C CXX)
 
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_C_STANDARD 99)
+#link_libraries(${ARDUINO_SDK}/libraries)
 
-#################################################
-#               MCU PROPERTIES
-#################################################
+# Link external libs directories (as Arduino-IDE uses it)
+link_directories(${CMAKE_EXTERNAL_LIBS_PATH})
 
-set(MCU atmega328p)
-set(BAUD 9600)
-set(PROG_TYPE arduino)
-set(PORT /dev/ttyUSB0)
+# set source files
 
-#################################################
-#             BUILD & DEPLOYMENT
-#################################################
+file (GLOB Sources ${SOURCE_DIRECTORIES}/*.cpp)
 
-set(SRC
-    src/kernel.c
-    src/main.c
-)
-set(HDR
-    headers/kernel.h
-)
-    
-project(${PRJ})
+set(${PROJECT_NAME}_BOARD ${BOARD_NAME})
+set(${PROJECT_NAME}_SRCS ${Sources})
+set(${PROJECT_NAME}_PORT /dev/ttyUSB0)
 
-add_definitions(-DBAUD=${BAUD})
-set(CMAKE_EXE_LINKER_FLAGS -mmcu=${MCU})
-
-
-add_compile_options(
-    -mmcu=${MCU}
-    -Os
-)
-
-add_executable(${PRJ} ${SRC})
-
-set_target_properties(${PRJ} PROPERTIES OUTPUT_NAME ${PRJ}.elf)
-
-add_custom_target(strip ALL avr-strip ${PRJ}.elf DEPENDS ${PRJ})
-add_custom_target(hex ALL avr-objcopy -R .eeprom -O ihex ${PRJ}.elf ${PRJ}.hex DEPENDS strip)
-add_custom_target(upload ALL avrdude -c ${PROG_TYPE} -b 57600 -P ${PORT} -p ${MCU} -U flash:w:${PRJ}.hex DEPENDS hex)
-    
+# Command to generate code arduino firmware (.hex file)
+generate_arduino_firmware(${PROJECT_NAME})
