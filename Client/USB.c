@@ -85,20 +85,24 @@ void set_up_port(char *_port){
     _set_blocking(_port_fd_, 0);
 }
 
-void usb_read(char *_in, size_t _n)
+int usb_read(char *_in, size_t _n)
 { 
     int n = read(_port_fd_, _in, _n);
     if(n < 0)
         printf("Read triggered error %d: %s\n", errno ,strerror(errno));
     else
         printf("Read %d bytes\n", n);
+
+    return n;
 }
 
-void usb_write(char *_in, size_t _n)
+int usb_write(char *_in, size_t _n)
 {
     int n = write(_port_fd_, _in, _n);
     if(n < 0)
         printf("write triggered error %d: %s\n", errno ,strerror(errno));
     else
         printf("Written %d bytes\n", n);
+
+    return n;
 }
