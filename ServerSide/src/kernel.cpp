@@ -33,7 +33,6 @@ void init_game()
         _game_field[i] = (char*)malloc(FIELD_SIZE);
         memset(_game_field[i], EMPTY_CELL, FIELD_SIZE);
     }
-    _render_board();
 }
 
 void end_game()
@@ -53,27 +52,23 @@ int make_move(unsigned int _i, unsigned int _j)
 
     ++step;
 
-    _render_board();
-
     return SUCCESS;
 }
 
 int game_status()
 {
     int winner = _detect_winner();
+    int ret_val = GAME_CONTINUES;
+
     if(winner)
-    {
-        _announce_winner(winner);
-        return WINNER_FOUND;
-    }
+        ret_val = WINNER_FOUND;
 
     if (step == pow(FIELD_SIZE, 2))
-    {
-        _announce_draw();
-        return DRAW;
-    }
+        ret_val = DRAW;
 
-    return GAME_CONTINUES;
+    _render_board();
+
+    return ret_val;
 }
 
 int _detect_winner()
@@ -107,26 +102,13 @@ int _detect_winner()
     return 0;
 }
 
-void _announce_winner(char _winner)
-{
-    Serial.print(_winner);
-    Serial.println("wins");
-}
-
-void _announce_draw()
-{
-    Serial.println("DRAW!");
-}
-
 void _render_board()
 {
     for (int i = 0; i < FIELD_SIZE; i++)
     {
         for (int j = 0; j < FIELD_SIZE; j++)
-        {
+        {   
             Serial.print(_game_field[i][j]);
-            Serial.print(" ");
         }
-        Serial.println("\n");
     }
 }
