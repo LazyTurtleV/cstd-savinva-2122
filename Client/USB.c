@@ -88,11 +88,17 @@ void set_up_port(char *_port){
 void usb_read(char *_in, size_t _n)
 { 
     int n = read(_port_fd_, _in, _n);
-    printf("Read %d bytes\n", n);
+    if(n < 0)
+        printf("Read triggered error %d: %s\n", errno ,strerror(errno));
+    else
+        printf("Read %d bytes\n", n);
 }
 
 void usb_write(char *_in, size_t _n)
 {
     int n = write(_port_fd_, _in, _n);
-    printf("Written %d bytes\n", n);
+    if(n < 0)
+        printf("write triggered error %d: %s\n", errno ,strerror(errno));
+    else
+        printf("Written %d bytes\n", n);
 }
