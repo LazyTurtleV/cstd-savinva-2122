@@ -5,4 +5,5 @@ add_executable(appclient
     IO.c
     main.c 
     USB.c
+    dbg.c
 )
