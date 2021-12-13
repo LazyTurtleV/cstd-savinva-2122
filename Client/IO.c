@@ -3,14 +3,13 @@
 #include "headers/kernel.h"
 #include "headers/USB.h"
 
-#define PACKAGE_SIZE 11
+#define PACKAGE_SIZE 13
 #define BOARD_SIZE 3
 
-int _parse_package(char *_package)
+char* _parse_package(char *_package)
 {   
     switch(_package[0]){
         case SUCCESS:
-            ++_package;
             printf("X  ");
             for(int i = 0; i < BOARD_SIZE; i++) printf("%d ", i);
             puts(" ");
@@ -19,9 +18,9 @@ int _parse_package(char *_package)
             for (int i = 0; i < BOARD_SIZE; i++)
             {   
                 printf("%d| ", i);
-                for (int j = 0; j < BOARD_SIZE; j++)
+                for (char *p = _package + 1 + i*BOARD_SIZE, j = 0; j < BOARD_SIZE; j++, p++)
                 {
-                    printf("%c ", _package[ i*BOARD_SIZE + j ]);
+                    printf("%c ", *p);
                 }
                 puts("");
             }
@@ -37,7 +36,7 @@ int _parse_package(char *_package)
 
     fflush(stdout);
 
-    return _package[ 9 ];
+    return _package + 10;
 }
 
 void input_coords()
@@ -64,9 +63,15 @@ void receive_response()
     //wait until some bytes are read
     while(!usb_read(package, PACKAGE_SIZE));
 
-    const game_status = _parse_package(package);
-    if( game_status == WINNER_FOUND )
+    char *game_status = _parse_package(package);
+    if(game_status[0] != GAME_CONTINUES)
     {
-        printf("Winner found!!!");
+        printf("Step: %d\n", game_status[1]);
+        
+        char *str = game_status[0] == WINNER_FOUND
+            ? "%s won!\n"
+            : "Draft\n";
+
+        printf(str, game_status[2] ? "O": "X" ); 
     }
 }
