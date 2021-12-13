@@ -24,5 +24,8 @@ void loop()
     char game_stat = game_status();
     Serial.print(game_stat);
     if (game_stat != GAME_CONTINUES)
+    {
+        announce_winner();
         end_game();
+    }
 }

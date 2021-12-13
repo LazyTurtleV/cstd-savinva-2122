@@ -71,6 +71,15 @@ int game_status()
     return ret_val;
 }
 
+void announce_winner()
+{   
+    char *bytes = (char*)malloc(2);
+    bytes[0] = step;
+    bytes[1] = step % 2 ? 0 : 1;
+
+    Serial.print(bytes);
+}
+
 int _detect_winner()
 {
     for(int i = 0; i < FIELD_SIZE; i++)
@@ -112,3 +121,4 @@ void _render_board()
         }
     }
 }
+
