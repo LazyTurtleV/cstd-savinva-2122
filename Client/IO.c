@@ -1,10 +1,14 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #include "headers/kernel.h"
 #include "headers/USB.h"
 
 #define PACKAGE_SIZE 13
 #define BOARD_SIZE 3
+
+#define HANDSHAKE_CONST 0xFE
 
 char* _parse_package(char *_package)
 {   
@@ -74,4 +78,26 @@ void receive_response()
 
         printf(str, game_status[2] ? "O": "X" ); 
     }
+}
+
+void handshake(){
+    char *res = malloc(1);
+    do
+    {
+        char HNDHK_CONST = HANDSHAKE_CONST;
+        usb_write(&HNDHK_CONST, 1);
+
+        usb_read(res, 1);
+        printf("The response was gotten: %2X\n", *res);
+
+        usb_write(res, 1);
+
+
+        usb_read(res, 1);
+
+        usleep(1000 * 1000); //50 ms
+    } while ( (*res) & 0xFF != HANDSHAKE_CONST);
+
+    puts("Stable communication channel was established!");
+    free(res);
 }

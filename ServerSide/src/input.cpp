@@ -6,6 +6,7 @@
 #define COORD_X_MASK 0b0011
 #define COORD_Y_MASK 0b1100
 
+
 char* _process_package(char _package);
 
 char* receive_input()
@@ -15,6 +16,22 @@ char* receive_input()
     char in = Serial.read();
 
     return _process_package(in); 
+}
+
+char _read_byte()
+{
+    while(!Serial.available());
+
+    return Serial.read();
+}
+
+char handshake()
+{
+    char in = _read_byte();
+
+    Serial.print(in);
+
+    return _read_byte();
 }
 
 char* _process_package(char _package)
