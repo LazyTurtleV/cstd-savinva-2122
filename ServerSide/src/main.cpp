@@ -15,7 +15,6 @@ void setup()
     do
     {
         connection_status = handshake();
-        delay(1000);
         Serial.print(connection_status);
     }
     while( (connection_status & 0xFF) != HANDSHAKE_CONST);

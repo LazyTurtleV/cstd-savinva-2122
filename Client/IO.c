@@ -78,6 +78,8 @@ void receive_response()
 
         printf(str, game_status[2] ? "O": "X" ); 
     }
+
+    fflush(stdout);
 }
 
 void handshake(){
@@ -92,11 +94,8 @@ void handshake(){
 
         usb_write(res, 1);
 
-
         usb_read(res, 1);
-
-        usleep(1000 * 1000); //50 ms
-    } while ( (*res) & 0xFF != HANDSHAKE_CONST);
+    } while ( ((*res) & 0xFF ) != HANDSHAKE_CONST);
 
     puts("Stable communication channel was established!");
     free(res);
