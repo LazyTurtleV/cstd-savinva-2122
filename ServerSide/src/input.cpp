@@ -11,7 +11,7 @@ char* _process_package(char _package);
 
 char* receive_input()
 {
-    if(!Serial.available()) return WAIT_FOR_INPUT;
+    while(!Serial.available());
 
     char in = Serial.read();
 

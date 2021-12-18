@@ -10,13 +10,6 @@ void game_session()
     while(1)
     {
         char *in = receive_input();
-        if(in == WAIT_FOR_INPUT) {
-            Serial.println("oh...");
-            return;
-        }
-
-        Serial.print("Input received: ");
-        Serial.println(in);
 
         char move_stat = make_move(in[0], in[1]);
         Serial.print(move_stat);
