@@ -74,7 +74,7 @@ int game_status()
 void announce_player()
 {   
     char *bytes = (char*)malloc(2);
-    bytes[0] = step % 2 ? 0 : 1;
+    bytes[0] = step % 2 ? 1 : 0;
     bytes[1] = step;
 
     Serial.print(bytes);

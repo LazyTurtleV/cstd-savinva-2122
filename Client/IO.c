@@ -10,6 +10,8 @@
 
 #define HANDSHAKE_CONST 0xFE
 
+char player = 1;
+
 char* _parse_package(char *_package)
 {   
     switch(_package[0]){
@@ -29,6 +31,7 @@ char* _parse_package(char *_package)
                 puts("");
             }
             puts("");
+            player = !_package[10];
             break;
         case OUT_OF_BOUNDS:
             puts("Error: the index is out of bounds!");
@@ -40,7 +43,12 @@ char* _parse_package(char *_package)
 
     fflush(stdout);
 
-    return _package + 10;
+    return _package + 11;
+}
+
+char _resolve_player(char bit)
+{
+    return bit ? 'X': 'O';
 }
 
 void input_coords()
@@ -48,10 +56,12 @@ void input_coords()
     char *X_str = malloc(1);
     char *Y_str = malloc(1);
 
-    puts("Enter X coord:");
+    printf("%c turn to move!\n", _resolve_player(player));
+
+    printf("Enter X coord:");
     gets(X_str);
 
-    puts("Enter Y coord:");
+    printf("Enter Y coord:");
     gets(Y_str);
 
     char X = atoi(X_str), Y = atoi(Y_str);
@@ -70,13 +80,13 @@ void receive_response()
     char *game_status = _parse_package(package);
     if(game_status[0] != GAME_CONTINUES)
     {
-        printf("Step: %d\n", game_status[1]);
+        printf("Step: %d\n", game_status[0]);
         
-        char *str = game_status[0] == WINNER_FOUND
-            ? "%s won!\n"
+        char *str = game_status[1] == WINNER_FOUND
+            ? "%c won!\n"
             : "Draft\n";
 
-        printf(str, game_status[2] ? "O": "X" ); 
+        printf(str, _resolve_player(!player)); 
     }
 
     fflush(stdout);
