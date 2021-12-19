@@ -77,7 +77,7 @@ void announce_player()
     bytes[0] = step % 2 ? 1 : 0;
     bytes[1] = step;
 
-    Serial.print(bytes);
+    Serial.write((const uint8_t*)bytes, 2);
 }
 
 int _detect_winner()
