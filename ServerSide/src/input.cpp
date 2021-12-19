@@ -8,6 +8,7 @@
 
 
 char* _process_package(char _package);
+char _read_byte();
 
 char* receive_input()
 {
@@ -18,13 +19,6 @@ char* receive_input()
     return _process_package(in); 
 }
 
-char _read_byte()
-{
-    while(!Serial.available());
-
-    return Serial.read();
-}
-
 char handshake()
 {
     char in = _read_byte();
@@ -32,6 +26,13 @@ char handshake()
     Serial.print(in);
 
     return _read_byte();
+}
+
+char _read_byte()
+{
+    while(!Serial.available());
+
+    return Serial.read();
 }
 
 char* _process_package(char _package)
