@@ -78,7 +78,7 @@ void receive_response()
     while(!usb_read(package, PACKAGE_SIZE));
 
     char *game_status = _parse_package(package);
-    if(game_status[0] != GAME_CONTINUES)
+    if(game_status[1] != GAME_CONTINUES)
     {
         printf("Step: %d\n", game_status[0]);
         
