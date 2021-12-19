@@ -88,7 +88,7 @@ int _detect_winner()
         char prev_el = _game_field[i][0];
         for(int j = 0; j < FIELD_SIZE; j++)
         {
-            isLineComplete &= prev_el == _game_field[i][j] && _game_field[i][j] != EMPTY_CELL;
+            isLineComplete &= ( prev_el == _game_field[i][j] ) &&  ( _game_field[i][j] != EMPTY_CELL );
             prev_el = _game_field[i][j];
         }
         
@@ -101,7 +101,7 @@ int _detect_winner()
         char prev_el = _game_field[0][i];
         for(int j = 0; j < FIELD_SIZE; j++)
         {
-            isColumnComplete &= prev_el == _game_field[j][i] && _game_field[j][i] != EMPTY_CELL;
+            isColumnComplete &= ( prev_el == _game_field[j][i] ) && ( _game_field[j][i] != EMPTY_CELL );
             prev_el = _game_field[j][i];
         }
         
