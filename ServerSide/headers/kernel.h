@@ -11,4 +11,4 @@ void end_game();
 
 int make_move(unsigned int _i, unsigned int _j);
 int game_status();
-void announce_winner();
+void announce_player();

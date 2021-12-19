@@ -71,7 +71,7 @@ int game_status()
     return ret_val;
 }
 
-void announce_winner()
+void announce_player()
 {   
     char *bytes = (char*)malloc(2);
     bytes[0] = step;

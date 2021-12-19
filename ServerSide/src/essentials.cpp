@@ -12,15 +12,15 @@ void game_session()
         char *in = receive_input();
 
         char move_stat = make_move(in[0], in[1]);
-        Serial.print(move_stat);
+        Serial.write(move_stat);
 
         char game_stat = game_status();
-        Serial.print(game_stat);
+        Serial.write(game_stat);
+        
+        announce_player();
+
         if (game_stat != GAME_CONTINUES)
-        {
-            announce_winner();
             break;
-        }
     }
 
     end_game();
