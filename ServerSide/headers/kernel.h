@@ -5,9 +5,11 @@
 #define GAME_CONTINUES 0
 #define WINNER_FOUND 1
 #define DRAW 2
+#define MAN_vs_MAN 0
 
 void init_game();
 void end_game();
+char receive_mode();
 
 int make_move(unsigned int _i, unsigned int _j);
 int game_status();

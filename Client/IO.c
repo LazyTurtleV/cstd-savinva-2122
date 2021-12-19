@@ -70,6 +70,23 @@ void input_coords()
     usb_write(&package, 1);
 }
 
+int select_mode()
+{   
+    puts("Select game mode");
+    puts("Man vs Man - 0");
+
+    char mode = getc(stdin) - '0';
+    usb_write(&mode, 1);
+
+    getc(stdin); //dummy read in order to delete \n from in stream
+
+    char response;
+    //wait until some bytes are read
+    while(!usb_read(&response, 1));
+
+    return response;
+}
+
 void receive_response()
 {
     char *package = malloc(PACKAGE_SIZE);

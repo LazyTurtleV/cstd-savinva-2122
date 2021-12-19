@@ -2,6 +2,7 @@
 
 #include "../headers/essentials.h"
 #include "../headers/input.h"
+#include "../headers/kernel.h"
 
 void setup()
 {   
@@ -22,5 +23,11 @@ void setup()
 
 void loop()
 {   
-    game_session();
+    switch( receive_mode() ){
+        case MAN_vs_MAN:
+            Serial.print(1);
+            game_session();
+            break;
+    }
+
 }

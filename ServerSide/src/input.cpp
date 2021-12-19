@@ -19,6 +19,13 @@ char* receive_input()
     return _process_package(in); 
 }
 
+char receive_mode()
+{
+    while(!Serial.available());
+
+    return Serial.read();
+}
+
 char handshake()
 {
     char in = _read_byte();
