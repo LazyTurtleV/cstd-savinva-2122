@@ -28,6 +28,7 @@ void _game_loop()
     while(1)
     {  
         input_coords();
-        receive_response();
+        if(receive_response())
+            return;
     }
 }

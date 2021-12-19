@@ -87,7 +87,7 @@ int select_mode()
     return response;
 }
 
-void receive_response()
+int receive_response()
 {
     char *package = malloc(PACKAGE_SIZE);
 
@@ -103,7 +103,9 @@ void receive_response()
             ? "%c won!\n"
             : "Draft\n";
 
-        printf(str, _resolve_player(!player)); 
+        printf(str, _resolve_player(!player));
+
+        return 1;
     }
 
     fflush(stdout);

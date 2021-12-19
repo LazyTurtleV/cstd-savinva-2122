@@ -1,4 +1,4 @@
-void input_coords();
-void receive_response();
+int input_coords();
+int receive_response();
 void handshake();
 int select_mode();
