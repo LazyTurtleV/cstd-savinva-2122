@@ -15,9 +15,10 @@ void game_session()
         Serial.write(move_stat);
 
         char game_stat = game_status();
-        Serial.write(game_stat);
         
         announce_player();
+        Serial.write(game_stat);
+        
 
         if (game_stat != GAME_CONTINUES)
             break;
