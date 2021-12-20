@@ -7,3 +7,5 @@
 #define GAME_CONTINUES 0
 #define WINNER_FOUND 1
 #define DRAW 2
+
+#define DEBUG 0

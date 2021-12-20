@@ -6,6 +6,8 @@
 #include <unistd.h>
 #include <stdio.h>
 
+#include "headers/kernel.h"
+
 int _port_fd_ = 0;
 
 int _set_interface_attributs(int _fd, int _speed, int _parity);
@@ -90,8 +92,10 @@ int usb_read(char *_in, size_t _n)
     int n = read(_port_fd_, _in, _n);
     if(n < 0)
         printf("Read triggered error %d: %s\n", errno ,strerror(errno));
-    else
+    
+    #if DEBUG
         printf("Read %d bytes\n", n);
+    #endif
 
     return n;
 }
@@ -101,8 +105,10 @@ int usb_write(char *_in, size_t _n)
     int n = write(_port_fd_, _in, _n);
     if(n < 0)
         printf("write triggered error %d: %s\n", errno ,strerror(errno));
-    else
+    
+    #if DEBUG
         printf("Written %d bytes\n", n);
+    #endif
 
     return n;
 }

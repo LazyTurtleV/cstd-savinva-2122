@@ -14,6 +14,7 @@ char player = 1;
 
 char* _parse_package(char *_package)
 {   
+    puts("\n");
     switch(_package[0]){
         case SUCCESS:
             printf("X  ");
@@ -119,13 +120,19 @@ void handshake(){
         usb_write(&HNDHK_CONST, 1);
 
         usb_read(res, 1);
-        printf("The response was gotten: %2X\n", *res);
+        
+        #if DEBUG
+            printf("The response was gotten: %2X\n", *res);
+        #endif
 
         usb_write(res, 1);
 
         usb_read(res, 1);
     } while ( ((*res) & 0xFF ) != HANDSHAKE_CONST);
 
-    puts("Stable communication channel was established!");
+    #if DEBUG
+        puts("Stable communication channel was established!");
+    #endif
+    
     free(res);
 }
