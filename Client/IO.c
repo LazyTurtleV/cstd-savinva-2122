@@ -106,6 +106,8 @@ int receive_response()
 
         printf(str, _resolve_player(!player));
 
+        puts("\n\n");
+
         return 1;
     }
 
