@@ -61,10 +61,16 @@ int game_status()
     int ret_val = GAME_CONTINUES;
 
     if(winner)
+    {   
+        step = 0;
         ret_val = WINNER_FOUND;
+    }
 
     if (step == pow(FIELD_SIZE, 2))
+    {
+        step = 0;
         ret_val = DRAW;
+    }
 
     _render_board();
 

@@ -105,9 +105,7 @@ int receive_response()
     #endif
     
     if(game_status[1] != GAME_CONTINUES)
-    {
-        printf("Step: %d\n", game_status[0]);
-        
+    {   
         char *str = game_status[1] == WINNER_FOUND
             ? "%c won!\n"
             : "Draft\n";
