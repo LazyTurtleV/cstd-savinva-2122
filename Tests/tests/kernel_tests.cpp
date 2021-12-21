@@ -1,11 +1,48 @@
 #include <gtest/gtest.h>
 
+#include "../../ServerSide/headers/kernel.h"
+
 #define EMPTY_CELL '_'
 
+extern char **_game_field;
+extern size_t step;
 extern void init_game();
 extern void end_game();
 extern int make_move(unsigned int, unsigned int);;
-extern char **_game_field;
+extern int game_status();
+extern void announce_player();
+extern int _detect_winner();
+
+
+void make_win_situation(bool is1stPlayer)
+{
+    init_game();
+
+    for(int i = 0; i < 3; i++)
+    {
+        for(int j = 0; j < 3; j++)
+        {
+            _game_field[i][j] = '_';
+        }
+    }
+
+    for(int i = 0; i < 3; i++)
+        _game_field[0][i] = is1stPlayer ? 'X': 'O';
+}
+
+void make_draw()
+{
+    init_game();
+
+    for(int i = 0; i < 3; i++)
+    {
+        for(int j = 0; j < 3; j++)
+        {
+            make_move(i, j);
+        }
+    }
+}
+
 
 TEST(KernelTest, init_game)
 {
@@ -69,4 +106,36 @@ TEST(KernelTest, make_move)
     end_game();
     make_move(0, 0);
     EXPECT_EQ(2, make_move(0, 0));
+}
+
+TEST(KernelTest, game_status)
+{   
+    make_win_situation(true);
+
+    EXPECT_EQ( WINNER_FOUND, game_status());
+
+    end_game();
+
+    make_win_situation(false);
+
+    EXPECT_EQ( WINNER_FOUND, game_status());
+
+    end_game();
+
+    make_draw();
+
+    EXPECT_EQ( DRAW, game_status() );
+
+    end_game();
+}
+
+TEST(KernelTest, _detect_winner)
+{
+    make_win_situation(true);
+    EXPECT_EQ('X', _detect_winner());
+    end_game();
+
+    make_win_situation(false);
+    EXPECT_EQ('O', _detect_winner());
+    end_game();
 }
