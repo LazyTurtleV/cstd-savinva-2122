@@ -11,10 +11,12 @@ project(${PRJ})
 
 file(GLOB SRC 
     ../ServerSide/src/*.cpp
+    ../Client/*.c
 )
 
 file(GLOB HDR 
     ../ServerSide/headers/*.h
+    ../Client/headers/*.h
     ${CMAKE_CURRENT_LIST_DIR}/headers/Arduino.h #Arduino lib mock
 )
 
