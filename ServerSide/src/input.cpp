@@ -1,5 +1,9 @@
 #include <stdlib.h>
-#include <Arduino.h>
+#ifdef ARDUINO_MOCK
+#   include "../../Tests/headers/Arduino.h"
+#else 
+#   include <Arduino.h>
+#endif
 
 #include "../headers/input.h" 
 

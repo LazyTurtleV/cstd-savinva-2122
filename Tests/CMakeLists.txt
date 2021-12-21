@@ -15,9 +15,11 @@ file(GLOB SRC
 
 file(GLOB HDR 
     ../ServerSide/headers/*.h
+    ${CMAKE_CURRENT_LIST_DIR}/headers/Arduino.h #Arduino lib mock
 )
 
 #instance of project for tests
+add_compile_definitions(ARDUINO_MOCK=1)
 add_library(${TESTED_PRJ} STATIC ${SRC} ${HDR})
 
 enable_testing()
