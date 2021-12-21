@@ -43,6 +43,7 @@ void init_game()
 
 void end_game()
 {
+    step = 0;
     for(int i = 0; i < FIELD_SIZE; i++)
         memset(_game_field[i], EMPTY_CELL, FIELD_SIZE);
 }
@@ -67,16 +68,10 @@ int game_status()
     int ret_val = GAME_CONTINUES;
 
     if(winner)
-    {   
-        step = 0;
         ret_val = WINNER_FOUND;
-    }
 
     if (step == pow(FIELD_SIZE, 2))
-    {
-        step = 0;
         ret_val = DRAW;
-    }
 
     _render_board();
 
