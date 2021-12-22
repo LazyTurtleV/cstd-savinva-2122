@@ -107,6 +107,26 @@ int select_mode()
     return response;
 }
 
+int main_menu()
+{
+    puts("New game - 0");
+    puts("Load game - 1");
+
+    char action = getc(stdin) - '0';
+    getc(stdin); //dummy read in order to delete \n from in stream
+
+    if (action)
+    {   
+        char *req = (char*)malloc(10);
+        req[0] = LOAD_REQUEST;
+        read_file(req + 1, 9);
+
+        usb_write(req, 10);
+    }
+
+    return select_mode();
+}
+
 int receive_response()
 {
     char *package = malloc(PACKAGE_SIZE);

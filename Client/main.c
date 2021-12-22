@@ -16,7 +16,7 @@ int main()
 
     while(1)
     {
-        if (select_mode())
+        if (main_menu())
             _game_loop();
         else
             puts("Wrong input!");
