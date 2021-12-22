@@ -4,6 +4,7 @@
 
 #include "headers/kernel.h"
 #include "headers/USB.h"
+#include "headers/file_IO.h"
 
 #define PACKAGE_SIZE 13
 #define BOARD_SIZE 3
@@ -39,6 +40,12 @@ char* _parse_package(char *_package)
             break;
         case CELL_IS_OCCUPIED:
             puts("Error: the cell is already occupied!");
+            break;
+        case SAVE_REQUEST:
+            if(write_file(_package + 1, 9))
+                puts("Failed to make save...");
+            else
+                puts("Success");
             break;
     }
 
