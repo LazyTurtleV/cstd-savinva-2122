@@ -15,6 +15,13 @@ void game_session()
     {
         char *in = receive_input();
 
+        if( ( in[0] & 0xFF ) == SAVE_REQUEST )
+        {   
+            Serial.write((const uint8_t*)in, 1);
+            game_status();
+            continue;
+        }
+
         char move_stat = make_move(in[0], in[1]);
         Serial.write(move_stat);
 

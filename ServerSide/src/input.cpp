@@ -6,6 +6,7 @@
 #endif
 
 #include "../headers/input.h" 
+#include "../headers/kernel.h"
 
 #define COORD_X_MASK 0b0011
 #define COORD_Y_MASK 0b1100
@@ -49,9 +50,17 @@ char _read_byte()
 char* _process_package(char _package)
 {
     char *c = (char*)malloc(2);
-    
-    c[0] = ( _package & COORD_Y_MASK ) >> 2;
-    c[1] = _package & COORD_X_MASK;
+
+    if ((_package & 0xFF ) == SAVE_REQUEST)
+    {
+        c[0] = SAVE_REQUEST;
+        c[1] = SAVE_REQUEST;
+    }
+    else
+    {
+        c[0] = ( _package & COORD_Y_MASK ) >> 2;
+        c[1] = _package & COORD_X_MASK;
+    }
 
     return c;
 }
