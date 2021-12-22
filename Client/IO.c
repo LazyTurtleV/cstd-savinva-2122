@@ -59,7 +59,7 @@ char _resolve_player(char bit)
     return bit ? 'X': 'O';
 }
 
-void input_coords()
+void user_input()
 {
     char *X_str = malloc(1);
     char *Y_str = malloc(1);
