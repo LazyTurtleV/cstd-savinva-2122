@@ -16,7 +16,7 @@ char player = 1;
 char* _parse_package(char *_package)
 {   
     puts("\n");
-    switch(_package[0]){
+    switch((u_int8_t)_package[0]){
         case SUCCESS:
             printf("X  ");
             for(int i = 0; i < BOARD_SIZE; i++) printf("%d ", i);
