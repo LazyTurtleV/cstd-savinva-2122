@@ -53,6 +53,12 @@ cd ./Client/build
 make  
 **in order to build a client**
 
-### Runing the client
+### Running the client
 
 To run the client ./Client/build/appclient 
+
+### Testing
+
+The project uses gtest testing framework, it'll be automatically installed on automated build execution.  
+Tests are automatically run on automated build or you can do it yourself by running **ctest --verbose** (or any other set of flags)
+in ./Tests dir
