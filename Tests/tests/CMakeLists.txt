@@ -4,6 +4,8 @@ set(PROJECT tests)
 set(TESTED_PROJECT prj)
 set(SRC
     kernel_tests.cpp
+    client_usb_tests.cpp
+    client_io_tests.cpp
 )
 
 add_executable(${PROJECT} ${SRC})

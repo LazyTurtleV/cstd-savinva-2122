@@ -27,6 +27,18 @@ then
     cd ../
 fi
 
+if [ ! -d "./Tests/googletest" ]
+then
+    git clone https://github.com/google/googletest.git
+    wget https://github.com/google/googletest/archive/release-1.8.0.tar.gz
+
+    cd googletest
+    mkdir build
+    cd build
+    cmake ..
+    make -j8
+fi
+
 echo -e "\nDONE\n"
 echo "====================================================================================="
 echo "SERVERSIDE BUILD"
@@ -51,5 +63,25 @@ echo -e "=======================================================================
 cmake -S ./Client/ -B ./Client/build/
 cd ./Client/build
 make
+cd ../../
+
+echo -e "\nDONE\n"
+
+echo -e "\nDONE\n"
+echo "====================================================================================="
+echo "BUILD TESTS"
+echo -e "=====================================================================================\n"
+
+cmake -S ./Tests/ -B ./Tests/build
+cd ./Tests/build
+make
+
+echo -e "\nDONE\n"
+
+echo "====================================================================================="
+echo "RUN THE TESTS"
+echo -e "=====================================================================================\n"
+
+ctest --verbose
 
 echo -e "\nDONE\n"
