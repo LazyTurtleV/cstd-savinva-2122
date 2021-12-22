@@ -45,7 +45,7 @@ char* _parse_package(char *_package)
             if(write_file(_package + 1, 9))
                 puts("Failed to make save...");
             else
-                puts("Success");
+                puts("Success\n\n");
             break;
     }
 
@@ -65,7 +65,8 @@ void user_input()
     char *Y_str = malloc(1);
 
     printf("%c turn to move!\n", _resolve_player(player));
-    puts("Fill one of the following gaps with a 's' char in order to make a save of the game\n or with move coords according to provided grid");
+    puts("Fill one of the following gaps with a 's' char in order to make a save of the game");
+    puts("==================================================================================");
 
     printf("Enter X coord:");
     gets(X_str);
