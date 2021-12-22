@@ -65,6 +65,7 @@ void user_input()
     char *Y_str = malloc(1);
 
     printf("%c turn to move!\n", _resolve_player(player));
+    puts("Fill one of the following gaps with a 's' char in order to make a save of the game\n or with move coords according to provided grid");
 
     printf("Enter X coord:");
     gets(X_str);
@@ -72,10 +73,20 @@ void user_input()
     printf("Enter Y coord:");
     gets(Y_str);
 
-    char X = atoi(X_str), Y = atoi(Y_str);
-    char package =  ( Y << 2 ) | X;
+    if (*X_str == 's' || *Y_str == 's')
+    {
+        //make save request
+        char pckg = SAVE_REQUEST;
+        usb_write(&pckg, 1);
+    }
+    else
+    {
+        char X = atoi(X_str), Y = atoi(Y_str);
+        char package =  ( Y << 2 ) | X;
 
-    usb_write(&package, 1);
+        usb_write(&package, 1);
+    }
+
 }
 
 int select_mode()
