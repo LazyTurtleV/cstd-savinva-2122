@@ -6,7 +6,7 @@
 
 extern char **_game_field;
 extern size_t step;
-extern void init_game();
+extern void init_game(char *_m);
 extern void end_game();
 extern int make_move(unsigned int, unsigned int);;
 extern int game_status();
@@ -16,7 +16,7 @@ extern int _detect_winner();
 
 void make_win_situation(bool is1stPlayer)
 {
-    init_game();
+    init_game(0);
 
     for(int i = 0; i < 3; i++)
     {
@@ -32,7 +32,7 @@ void make_win_situation(bool is1stPlayer)
 
 void make_draw()
 {
-    init_game();
+    init_game(0);
 
     for(int i = 0; i < 3; i++)
     {
@@ -46,7 +46,7 @@ void make_draw()
 
 TEST(KernelTest, init_game)
 {
-    EXPECT_NO_THROW(init_game());
+    EXPECT_NO_THROW(init_game(0));
     ASSERT_NE(0, reinterpret_cast<std::uintptr_t>(_game_field) );
     
     for(int i = 0; i < 3; i++)
@@ -96,7 +96,7 @@ TEST(KernelTest, make_move)
     {
         for(int j = 0; j < 3; j++)
         {   
-            if(!_game_field) init_game();
+            if(!_game_field) init_game(0);
 
             EXPECT_EQ(0, make_move(i, j));
             EXPECT_NE(EMPTY_CELL, _game_field[i][j]);
