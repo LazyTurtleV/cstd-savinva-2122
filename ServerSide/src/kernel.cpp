@@ -66,6 +66,16 @@ void end_game()
         memset(_game_field[i], EMPTY_CELL, FIELD_SIZE);
 }
 
+char resolve_winner_player()
+{
+    if(_detect_winner())
+    {
+        return step % 2 ? O : X;
+    }
+
+    return 0;
+}
+
 int make_move(unsigned int _i, unsigned int _j)
 {   
     if (_i >= FIELD_SIZE || _j >= FIELD_SIZE) 
