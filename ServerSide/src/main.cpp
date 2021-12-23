@@ -28,11 +28,11 @@ void setup()
 void loop()
 {   
     char mode = receive_mode();
-    Serial.print((char)1);
-    if(LOAD_REQUEST == mode)
+    if(LOAD_REQUEST == ( mode & 0xFF ))
     {
         char *li = receive_load_info();
         init_game(li);
+        Serial.print((char)1);
 
         mode = receive_mode();
         Serial.print((char)1);
@@ -40,6 +40,7 @@ void loop()
     else
     {
         init_game(NULL);
+        Serial.print((char)1);
     }
 
     switch( mode ){

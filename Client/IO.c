@@ -61,6 +61,28 @@ char _render_board(char *_b)
     puts("");
 }
 
+void _load_game()
+{
+    char *req = (char*)malloc(10);
+    req[0] = LOAD_REQUEST;
+    read_file(req + 1, 9);
+
+    usb_write(req, 10);
+
+    char response;
+    //wait until some bytes are read
+    while(!usb_read(&response, 1));
+
+    #if DEBUG
+        ___print_mem___(&response, 1);
+    #endif
+
+    if(!response) return 0;
+
+    puts("\nGame's successfully been loaded\n");
+    _render_board(req + 1);
+}
+
 char _resolve_player(char bit)
 {
     return bit ? 'X': 'O';
@@ -126,27 +148,14 @@ int main_menu()
     char action = getc(stdin) - '0';
     getc(stdin); //dummy read in order to delete \n from in stream
 
-    if (action)
+    switch(action)
     {
-        char *req = (char*)malloc(10);
-        req[0] = LOAD_REQUEST;
-        read_file(req + 1, 9);
-
-        usb_write(req, 10);
-
-        char response;
-        //wait until some bytes are read
-        while(!usb_read(&response, 1));
-
-        #if DEBUG
-            ___print_mem___(&response, 1);
-        #endif
-
-        if(!response) return 0;
-
-        puts("\nGame's successfully been loaded\n");
-        _render_board(req + 1);
-    } 
+        case 0:
+            break;
+        case 1:
+            _load_game();
+            break;
+    }
 
 
     return select_mode();
