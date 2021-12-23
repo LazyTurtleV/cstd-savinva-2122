@@ -116,13 +116,20 @@ int main_menu()
     getc(stdin); //dummy read in order to delete \n from in stream
 
     if (action)
-    {   
+    {
         char *req = (char*)malloc(10);
         req[0] = LOAD_REQUEST;
         read_file(req + 1, 9);
 
         usb_write(req, 10);
-    }
+
+        char response;
+        //wait until some bytes are read
+        while(!usb_read(&response, 1));
+
+        if(!response) return 0;
+    } 
+
 
     return select_mode();
 }
