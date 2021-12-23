@@ -30,6 +30,7 @@ void _render_board();
 int _detect_winner();
 void _announce_winner(char _winner);
 void _announce_draw();
+void _count_step();
 
 void init_game(char *_load_info)
 {   
@@ -52,7 +53,8 @@ void init_game(char *_load_info)
             {
                 _game_field[i][j] = _load_info[i * FIELD_SIZE + j];
             }
-            //memcpy(_game_field[i], _load_info + i*FIELD_SIZE, FIELD_SIZE);
+
+            _count_step();
         }
     }
 }
@@ -101,6 +103,18 @@ void announce_player()
     bytes[1] = step;
 
     Serial.write((const uint8_t*)bytes, 2);
+}
+
+void _count_step()
+{
+    step = 0;
+    for (int i = 0; i < FIELD_SIZE; i++)
+    {
+        for (int j = 0; j < FIELD_SIZE; j++)
+        {
+            if(_game_field[i][j] != EMPTY_CELL) step++;
+        }
+    }
 }
 
 int _detect_winner()

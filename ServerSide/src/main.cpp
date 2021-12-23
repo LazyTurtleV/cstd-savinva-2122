@@ -33,7 +33,9 @@ void loop()
     {
         char *li = receive_load_info();
         init_game(li);
+
         mode = receive_mode();
+        Serial.print((char)1);
     }
     else
     {
