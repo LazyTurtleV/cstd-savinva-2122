@@ -31,6 +31,14 @@ char receive_mode()
     return Serial.read();
 }
 
+char* receive_load_info()
+{
+    char *buf = (char*)malloc(9);
+    Serial.readBytes(buf, 9);
+
+    return buf;
+}
+
 char handshake()
 {
     char in = _read_byte();

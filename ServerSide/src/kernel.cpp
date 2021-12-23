@@ -31,13 +31,29 @@ int _detect_winner();
 void _announce_winner(char _winner);
 void _announce_draw();
 
-void init_game()
-{
-    _game_field = (char**)malloc(FIELD_SIZE * sizeof(char*));
-    for(int i = 0; i < FIELD_SIZE; i++)
-    { 
-        _game_field[i] = (char*)malloc(FIELD_SIZE);
-        memset(_game_field[i], EMPTY_CELL, FIELD_SIZE);
+void init_game(char *_load_info)
+{   
+    if(!_load_info)
+    {
+        _game_field = (char**)malloc(FIELD_SIZE * sizeof(char*));
+        for(int i = 0; i < FIELD_SIZE; i++)
+        { 
+            _game_field[i] = (char*)malloc(FIELD_SIZE);
+            memset(_game_field[i], EMPTY_CELL, FIELD_SIZE);
+        }
+    }
+    else
+    {
+        _game_field = (char**)malloc(FIELD_SIZE * sizeof(char*));
+        for(int i = 0; i < FIELD_SIZE; i++)
+        { 
+            _game_field[i] = (char*)malloc(FIELD_SIZE);
+            for (int j = 0; j < FIELD_SIZE; j++)
+            {
+                _game_field[i][j] = _load_info[i * FIELD_SIZE + j];
+            }
+            //memcpy(_game_field[i], _load_info + i*FIELD_SIZE, FIELD_SIZE);
+        }
     }
 }
 
