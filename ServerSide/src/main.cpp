@@ -27,11 +27,28 @@ void setup()
 
 void loop()
 {   
-    switch( receive_mode() ){
+    char mode = receive_mode();
+    if(LOAD_REQUEST == ( mode & 0xFF ))
+    {
+        char *li = receive_load_info();
+        init_game(li);
+        Serial.print((char)1);
+
+        mode = receive_mode();
+        Serial.print((char)1);
+    }
+    else
+    {
+        init_game(NULL);
+        Serial.print((char)1);
+    }
+
+    switch( mode ){
         case MAN_vs_MAN:
-            Serial.print(1);
+        {
             game_session();
             break;
+        }
     }
 
 }

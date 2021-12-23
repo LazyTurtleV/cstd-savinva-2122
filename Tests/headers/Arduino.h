@@ -14,6 +14,11 @@ public:
         return 1;
     }
 
+    static int readBytes(char *_buf, size_t _n)
+    {
+        return 1;
+    }
+
     static int print(char *_m)
     {
         puts(_m);

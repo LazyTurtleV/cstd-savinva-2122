@@ -3,4 +3,5 @@
 #define HANDSHAKE_CONST 0xFE
 
 char* receive_input();
+char* receive_load_info();
 char handshake();

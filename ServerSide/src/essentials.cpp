@@ -9,19 +9,24 @@
 
 void game_session()
 {   
-    init_game();
-
     while(1)
     {
         char *in = receive_input();
 
+        if( ( in[0] & 0xFF ) == SAVE_REQUEST )
+        {   
+            Serial.write((const uint8_t*)in, 1);
+            game_status();
+            continue;
+        }
+
         char move_stat = make_move(in[0], in[1]);
-        Serial.write(move_stat);
+        Serial.write((const uint8_t*)&move_stat, 1);
 
         char game_stat = game_status();
         
         announce_player();
-        Serial.write(game_stat);
+        Serial.write((const uint8_t*)&game_stat, 1);
         
 
         if (game_stat != GAME_CONTINUES)

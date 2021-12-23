@@ -30,14 +30,32 @@ void _render_board();
 int _detect_winner();
 void _announce_winner(char _winner);
 void _announce_draw();
+void _count_step();
 
-void init_game()
-{
-    _game_field = (char**)malloc(FIELD_SIZE * sizeof(char*));
-    for(int i = 0; i < FIELD_SIZE; i++)
-    { 
-        _game_field[i] = (char*)malloc(FIELD_SIZE);
-        memset(_game_field[i], EMPTY_CELL, FIELD_SIZE);
+void init_game(char *_load_info)
+{   
+    if(!_load_info)
+    {
+        _game_field = (char**)malloc(FIELD_SIZE * sizeof(char*));
+        for(int i = 0; i < FIELD_SIZE; i++)
+        { 
+            _game_field[i] = (char*)malloc(FIELD_SIZE);
+            memset(_game_field[i], EMPTY_CELL, FIELD_SIZE);
+        }
+    }
+    else
+    {
+        _game_field = (char**)malloc(FIELD_SIZE * sizeof(char*));
+        for(int i = 0; i < FIELD_SIZE; i++)
+        { 
+            _game_field[i] = (char*)malloc(FIELD_SIZE);
+            for (int j = 0; j < FIELD_SIZE; j++)
+            {
+                _game_field[i][j] = _load_info[i * FIELD_SIZE + j];
+            }
+
+            _count_step();
+        }
     }
 }
 
@@ -85,6 +103,18 @@ void announce_player()
     bytes[1] = step;
 
     Serial.write((const uint8_t*)bytes, 2);
+}
+
+void _count_step()
+{
+    step = 0;
+    for (int i = 0; i < FIELD_SIZE; i++)
+    {
+        for (int j = 0; j < FIELD_SIZE; j++)
+        {
+            if(_game_field[i][j] != EMPTY_CELL) step++;
+        }
+    }
 }
 
 int _detect_winner()

@@ -4,6 +4,7 @@
 
 #include "headers/kernel.h"
 #include "headers/USB.h"
+#include "headers/file_IO.h"
 
 #define PACKAGE_SIZE 13
 #define BOARD_SIZE 3
@@ -12,26 +13,14 @@
 
 char player = 1;
 
+char _render_board(char *_board);
+
 char* _parse_package(char *_package)
 {   
     puts("\n");
-    switch(_package[0]){
+    switch((u_int8_t)_package[0]){
         case SUCCESS:
-            printf("X  ");
-            for(int i = 0; i < BOARD_SIZE; i++) printf("%d ", i);
-            puts(" ");
-            puts("Y|——————");
-
-            for (int i = 0; i < BOARD_SIZE; i++)
-            {   
-                printf("%d| ", i);
-                for (char *p = _package + 1 + i*BOARD_SIZE, j = 0; j < BOARD_SIZE; j++, p++)
-                {
-                    printf("%c ", *p);
-                }
-                puts("");
-            }
-            puts("");
+            _render_board(_package + 1);
             player = !_package[10];
             break;
         case OUT_OF_BOUNDS:
@@ -40,6 +29,12 @@ char* _parse_package(char *_package)
         case CELL_IS_OCCUPIED:
             puts("Error: the cell is already occupied!");
             break;
+        case SAVE_REQUEST:
+            if(write_file(_package + 1, 9))
+                puts("Failed to make save...");
+            else
+                puts("Success\n\n");
+            break;
     }
 
     fflush(stdout);
@@ -47,17 +42,60 @@ char* _parse_package(char *_package)
     return _package + 11;
 }
 
+char _render_board(char *_b)
+{
+    printf("X  ");
+    for(int i = 0; i < BOARD_SIZE; i++) printf("%d ", i);
+    puts(" ");
+    puts("Y|——————");
+
+    for (int i = 0; i < BOARD_SIZE; i++)
+    {   
+        printf("%d| ", i);
+        for (char *p = _b + i*BOARD_SIZE, j = 0; j < BOARD_SIZE; j++, p++)
+        {
+            printf("%c ", *p);
+        }
+        puts("");
+    }
+    puts("");
+}
+
+void _load_game()
+{
+    char *req = (char*)malloc(10);
+    req[0] = LOAD_REQUEST;
+    read_file(req + 1, 9);
+
+    usb_write(req, 10);
+
+    char response;
+    //wait until some bytes are read
+    while(!usb_read(&response, 1));
+
+    #if DEBUG
+        ___print_mem___(&response, 1);
+    #endif
+
+    if(!response) return 0;
+
+    puts("\nGame's successfully been loaded\n");
+    _render_board(req + 1);
+}
+
 char _resolve_player(char bit)
 {
     return bit ? 'X': 'O';
 }
 
-void input_coords()
+void user_input()
 {
     char *X_str = malloc(1);
     char *Y_str = malloc(1);
 
     printf("%c turn to move!\n", _resolve_player(player));
+    puts("Fill one of the following gaps with a 's' char in order to make a save of the game");
+    puts("==================================================================================");
 
     printf("Enter X coord:");
     gets(X_str);
@@ -65,10 +103,20 @@ void input_coords()
     printf("Enter Y coord:");
     gets(Y_str);
 
-    char X = atoi(X_str), Y = atoi(Y_str);
-    char package =  ( Y << 2 ) | X;
+    if (*X_str == 's' || *Y_str == 's')
+    {
+        //make save request
+        char pckg = SAVE_REQUEST;
+        usb_write(&pckg, 1);
+    }
+    else
+    {
+        char X = atoi(X_str), Y = atoi(Y_str);
+        char package =  ( Y << 2 ) | X;
 
-    usb_write(&package, 1);
+        usb_write(&package, 1);
+    }
+
 }
 
 int select_mode()
@@ -85,7 +133,32 @@ int select_mode()
     //wait until some bytes are read
     while(!usb_read(&response, 1));
 
+    #if DEBUG
+            ___print_mem___(&response, 1);
+    #endif
+
     return response;
+}
+
+int main_menu()
+{
+    puts("New game - 0");
+    puts("Load game - 1");
+
+    char action = getc(stdin) - '0';
+    getc(stdin); //dummy read in order to delete \n from in stream
+
+    switch(action)
+    {
+        case 0:
+            break;
+        case 1:
+            _load_game();
+            break;
+    }
+
+
+    return select_mode();
 }
 
 int receive_response()
