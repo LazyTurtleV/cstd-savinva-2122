@@ -13,26 +13,14 @@
 
 char player = 1;
 
+char _render_board(char *_board);
+
 char* _parse_package(char *_package)
 {   
     puts("\n");
     switch((u_int8_t)_package[0]){
         case SUCCESS:
-            printf("X  ");
-            for(int i = 0; i < BOARD_SIZE; i++) printf("%d ", i);
-            puts(" ");
-            puts("Y|——————");
-
-            for (int i = 0; i < BOARD_SIZE; i++)
-            {   
-                printf("%d| ", i);
-                for (char *p = _package + 1 + i*BOARD_SIZE, j = 0; j < BOARD_SIZE; j++, p++)
-                {
-                    printf("%c ", *p);
-                }
-                puts("");
-            }
-            puts("");
+            _render_board(_package + 1);
             player = !_package[10];
             break;
         case OUT_OF_BOUNDS:
@@ -52,6 +40,25 @@ char* _parse_package(char *_package)
     fflush(stdout);
 
     return _package + 11;
+}
+
+char _render_board(char *_b)
+{
+    printf("X  ");
+    for(int i = 0; i < BOARD_SIZE; i++) printf("%d ", i);
+    puts(" ");
+    puts("Y|——————");
+
+    for (int i = 0; i < BOARD_SIZE; i++)
+    {   
+        printf("%d| ", i);
+        for (char *p = _b + i*BOARD_SIZE, j = 0; j < BOARD_SIZE; j++, p++)
+        {
+            printf("%c ", *p);
+        }
+        puts("");
+    }
+    puts("");
 }
 
 char _resolve_player(char bit)
@@ -136,6 +143,9 @@ int main_menu()
         #endif
 
         if(!response) return 0;
+
+        puts("\nGame's successfully been loaded\n");
+        _render_board(req + 1);
     } 
 
 
