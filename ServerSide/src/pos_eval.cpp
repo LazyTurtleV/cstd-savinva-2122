@@ -2,14 +2,19 @@
 
 #include "../headers/kernel.h"
 
-double evaluate_position(char **_b, char _p)
+double evaluate_position(char **_b, char _p1, char _p2)
 {
     char winner = resolve_winner_player();
     if(winner)
     {
-        return _p == winner ? DBL_MAX: DBL_MIN;
+        return _p1 == winner ? DBL_MAX: DBL_MIN;
     }
 
+    return _eval_pos(_b, _p1) - _eval_pos(_b, _p2);
+}
+
+double _eval_pos(char **_b, char _p)
+{
     return (double)_eval_rows(_b, _p) + (double)_eval_columns(_b, _p);
 }
 

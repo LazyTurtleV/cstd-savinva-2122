@@ -1,0 +1,1 @@
+double evaluate_position(char **_b, char _p1, char _p2);
