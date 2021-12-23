@@ -104,6 +104,10 @@ int select_mode()
     //wait until some bytes are read
     while(!usb_read(&response, 1));
 
+    #if DEBUG
+            ___print_mem___(&response, 1);
+    #endif
+
     return response;
 }
 
@@ -126,6 +130,10 @@ int main_menu()
         char response;
         //wait until some bytes are read
         while(!usb_read(&response, 1));
+
+        #if DEBUG
+            ___print_mem___(&response, 1);
+        #endif
 
         if(!response) return 0;
     } 
