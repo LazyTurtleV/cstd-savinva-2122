@@ -12,8 +12,6 @@
 #include "../headers/kernel.h"
 
 #define FIELD_SIZE 3
-#define EMPTY_CELL '_'
-
 char **_game_field;
 const size_t g_FIELD_SIZE = FIELD_SIZE;
 

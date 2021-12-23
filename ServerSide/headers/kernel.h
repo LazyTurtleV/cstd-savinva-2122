@@ -4,6 +4,7 @@
 #define SAVE_REQUEST 0xFF
 #define LOAD_REQUEST 0xFA
 
+#define EMPTY_CELL '_'
 
 #define GAME_CONTINUES 0
 #define WINNER_FOUND 1
