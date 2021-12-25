@@ -144,6 +144,16 @@ int _select_AI_complexity()
     return response;
 }
 
+int get_game_mode()
+{
+    return game_mode;
+}
+
+int get_complexity_lvl()
+{
+    return AI_complexity;
+}
+
 int select_mode()
 {   
     puts("Select game mode");
