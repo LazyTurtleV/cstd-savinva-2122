@@ -1,5 +1,6 @@
 #ifdef ARDUINO_MOCK
 #   include "../../Tests/headers/Arduino.h"
+    void delay(const int _m){};
 #else 
 #   include <Arduino.h>
 #endif
@@ -84,12 +85,12 @@ void combined_game_session()
             char move_stat = comp_move( get_board() );
         }
 
-        Serial.write((const uint8_t*)&move_stat, 1);
+        Serial.write((char)move_stat);
 
         char game_stat = game_status();
         
         announce_player();
-        Serial.write((const uint8_t*)&game_stat, 1);
+        Serial.write((char)game_stat);
         
         isAI = !isAI;
 

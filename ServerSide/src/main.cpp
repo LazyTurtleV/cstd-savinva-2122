@@ -5,6 +5,7 @@
 #endif
 
 #include <time.h>
+#include <stdlib.h>
 
 #include "../headers/essentials.h"
 #include "../headers/input.h"
