@@ -181,7 +181,7 @@ int receive_response()
     {   
         char *str = game_status[1] == WINNER_FOUND
             ? "%c won!\n"
-            : "Draft\n";
+            : "Draw\n";
 
         printf(str, _resolve_player(!player));
 
