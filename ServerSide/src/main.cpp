@@ -4,6 +4,9 @@
 #   include <Arduino.h>
 #endif
 
+#include <time.h>
+#include <stdlib.h>
+
 #include "../headers/essentials.h"
 #include "../headers/input.h"
 #include "../headers/kernel.h"
@@ -11,6 +14,8 @@
 void setup()
 {   
     Serial.begin(9600);
+
+    srand(time(0));
 
     //until connection with serial is established
     while(!Serial);
@@ -47,6 +52,18 @@ void loop()
         case MAN_vs_MAN:
         {
             game_session();
+            break;
+        }
+        case MAN_vs_AI:
+        {   
+            set_up_ai();
+            combined_game_session();
+            break;
+        }
+        case AI_vs_AI:
+        {
+            set_up_ai();
+            AI_game_session();
             break;
         }
     }

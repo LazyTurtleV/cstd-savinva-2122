@@ -10,10 +10,9 @@
 #include "math.h"
 
 #include "../headers/kernel.h"
+#include "../headers/ai.h"
 
 #define FIELD_SIZE 3
-#define EMPTY_CELL '_'
-
 char **_game_field;
 const size_t g_FIELD_SIZE = FIELD_SIZE;
 
@@ -31,6 +30,21 @@ int _detect_winner();
 void _announce_winner(char _winner);
 void _announce_draw();
 void _count_step();
+
+char resolve_opponent_player(char _p)
+{
+    return _p == 'X'? 'O': 'X';
+}
+
+char resolve_current_player()
+{
+    return step % 2 ? O : X;
+}
+
+char** get_board()
+{
+    return _game_field;
+}
 
 void init_game(char *_load_info)
 {   
@@ -59,11 +73,29 @@ void init_game(char *_load_info)
     }
 }
 
+void set_up_ai()
+{
+    char AI_mode = receive_mode();
+    set_complexity(AI_mode);
+    
+    Serial.write((char)1);
+}
+
 void end_game()
 {
     step = 0;
     for(int i = 0; i < FIELD_SIZE; i++)
         memset(_game_field[i], EMPTY_CELL, FIELD_SIZE);
+}
+
+char resolve_winner_player()
+{
+    if(_detect_winner())
+    {
+        return resolve_current_player();
+    }
+
+    return 0;
 }
 
 int make_move(unsigned int _i, unsigned int _j)
@@ -73,7 +105,7 @@ int make_move(unsigned int _i, unsigned int _j)
     if(_game_field[_i][_j] != EMPTY_CELL) 
         return CELL_IS_OCCUPIED;
 
-    _game_field[_i][_j] = step % 2 ? O : X;
+    _game_field[_i][_j] = resolve_current_player();
 
     ++step;
 
