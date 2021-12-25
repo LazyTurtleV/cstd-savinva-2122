@@ -7,4 +7,7 @@ add_executable(appclient
     USB.c
     dbg.c
     file_IO.c
+    db.c
 )
+
+target_link_libraries(appclient mysqlclient)
