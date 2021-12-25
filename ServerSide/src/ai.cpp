@@ -4,6 +4,8 @@
 #include "../headers/kernel.h"
 #include "../headers/ai.h"
 
+bool is_strategy = true;
+
 int _minimux(char **_b, char _p)
 {
     char winner = resolve_winner_player();
@@ -38,8 +40,17 @@ int _minimux(char **_b, char _p)
     return eval;
 }
 
+void set_complexity(bool _lvl)
+{
+    is_strategy = _lvl;
+}
+
 int comp_move(char **_b)
 {
+    if (!is_strategy)
+    {
+        return make_move( rand() % 3, rand() % 3);
+    }
 
     int move[] = { -1, -1};
     int eval = -1;

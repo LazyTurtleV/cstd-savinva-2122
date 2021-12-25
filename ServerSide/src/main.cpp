@@ -4,6 +4,8 @@
 #   include <Arduino.h>
 #endif
 
+#include <time.h>
+
 #include "../headers/essentials.h"
 #include "../headers/input.h"
 #include "../headers/kernel.h"
@@ -11,6 +13,8 @@
 void setup()
 {   
     Serial.begin(9600);
+
+    srand(time(0));
 
     //until connection with serial is established
     while(!Serial);
