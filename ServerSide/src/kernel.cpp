@@ -40,6 +40,11 @@ char resolve_current_player()
     return step % 2 ? O : X;
 }
 
+char** get_board()
+{
+    return _game_field;
+}
+
 void init_game(char *_load_info)
 {   
     if(!_load_info)
