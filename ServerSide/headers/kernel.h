@@ -11,6 +11,8 @@
 #define DRAW 2
 
 #define MAN_vs_MAN 0
+#define MAN_vs_AI  1
+#define AI_vs_AI   2
 
 void init_game(char *_load_info);
 void end_game();

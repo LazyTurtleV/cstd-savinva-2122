@@ -53,6 +53,14 @@ void loop()
             game_session();
             break;
         }
+        case MAN_vs_AI:
+        {
+            break;
+        }
+        case AI_vs_AI:
+        {
+            break;
+        }
     }
 
 }
