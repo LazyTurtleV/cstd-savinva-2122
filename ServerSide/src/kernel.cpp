@@ -30,6 +30,11 @@ void _announce_winner(char _winner);
 void _announce_draw();
 void _count_step();
 
+char resolve_opponent_player(char _p)
+{
+    return _p == 'X'? 'O': 'X';
+}
+
 void init_game(char *_load_info)
 {   
     if(!_load_info)

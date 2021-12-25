@@ -20,3 +20,4 @@ int make_move(unsigned int _i, unsigned int _j);
 int game_status();
 void announce_player();
 char resolve_winner_player();
+char resolve_opponent_player(char _p);
