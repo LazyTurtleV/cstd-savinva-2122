@@ -3,7 +3,7 @@
 Student: Volodymyr Savin  
 Group: CE-47  
 Subject: CSDT  
-Version: 1.2
+Version: 1.3
 
 Project Name: tic-tac-toe game  
 Programming language: C  
