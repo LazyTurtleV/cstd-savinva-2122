@@ -49,7 +49,8 @@ void AI_game_session()
         
         announce_player();
         Serial.write((const uint8_t*)&game_stat, 1);
-        
+
+        delay(2000);
 
         if (game_stat != GAME_CONTINUES)
             break;
