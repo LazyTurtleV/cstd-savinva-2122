@@ -12,6 +12,8 @@
 #define HANDSHAKE_CONST 0xFE
 
 char player = 1;
+char game_mode = MAN_vs_MAN;
+char AI_complexity = AI_WIN_STRATEGY;
 
 char _render_board(char *_board);
 
@@ -119,13 +121,14 @@ void user_input()
 
 }
 
-int select_mode()
-{   
-    puts("Select game mode");
-    puts("Man vs Man - 0");
+int _select_AI_complexity()
+{
+    puts("Select AI complexity:");
+    puts("Random move - 0");
+    puts("Win strategy - 1");
 
-    char mode = getc(stdin) - '0';
-    usb_write(&mode, 1);
+    AI_complexity = getc(stdin) - '0';
+    usb_write(&AI_complexity, 1);
 
     getc(stdin); //dummy read in order to delete \n from in stream
 
@@ -134,10 +137,37 @@ int select_mode()
     while(!usb_read(&response, 1));
 
     #if DEBUG
+            puts("AI complexity res");
             ___print_mem___(&response, 1);
     #endif
 
     return response;
+}
+
+int select_mode()
+{   
+    puts("Select game mode");
+    puts("Man vs Man - 0");
+    puts("Man vs AI - 1");
+    puts("AI vs AI - 2");
+
+    game_mode = getc(stdin) - '0';
+    usb_write(&game_mode, 1);
+
+    getc(stdin); //dummy read in order to delete \n from in stream
+
+    char response;
+    //wait until some bytes are read
+    while(!usb_read(&response, 1));
+
+    #if DEBUG
+            puts("Game mode res");
+            ___print_mem___(&response, 1);
+    #endif
+
+    return response
+        ? _select_AI_complexity()
+        : response;
 }
 
 int main_menu()

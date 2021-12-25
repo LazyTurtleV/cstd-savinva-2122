@@ -10,4 +10,11 @@
 #define WINNER_FOUND 1
 #define DRAW 2
 
+#define MAN_vs_MAN 0
+#define MAN_vs_AI  1
+#define AI_vs_AI   2
+
+#define AI_RANDOM_MOVE 0
+#define AI_WIN_STRATEGY 1
+
 #define DEBUG 0
