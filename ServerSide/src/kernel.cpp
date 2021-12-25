@@ -35,6 +35,11 @@ char resolve_opponent_player(char _p)
     return _p == 'X'? 'O': 'X';
 }
 
+char resolve_current_player()
+{
+    return step % 2 ? O : X;
+}
+
 void init_game(char *_load_info)
 {   
     if(!_load_info)
@@ -73,7 +78,7 @@ char resolve_winner_player()
 {
     if(_detect_winner())
     {
-        return step % 2 ? O : X;
+        return resolve_current_player();
     }
 
     return 0;
@@ -86,7 +91,7 @@ int make_move(unsigned int _i, unsigned int _j)
     if(_game_field[_i][_j] != EMPTY_CELL) 
         return CELL_IS_OCCUPIED;
 
-    _game_field[_i][_j] = step % 2 ? O : X;
+    _game_field[_i][_j] = resolve_current_player();
 
     ++step;
 
