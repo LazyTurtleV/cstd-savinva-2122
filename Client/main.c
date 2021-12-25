@@ -58,5 +58,6 @@ void _combined_game_loop()
     {
         if(!isAI) user_input();
         if(receive_response()) return;
+        isAI = !isAI;
     }
 }
