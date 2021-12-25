@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
+#include <limits.h>
 
 #ifdef ARDUINO_MOCK
 #   include "../../Tests/headers/Arduino.h"
@@ -14,13 +15,21 @@
 
 bool is_strategy = true;
 
+unsigned int _recursion_depth = 0;
+#define RECURSION_LIMIT 3
+
 int _minimux(char **_b, char _p)
 {
     char winner = resolve_winner_player();
-    if(!winner) return 0;
+    if(winner)
+    {
+        return winner == _p 
+            ? INT_MAX
+            : INT_MIN;
+    }
 
-    bool is_there_any = false;
-    int eval = -1;
+    int eval = -2;
+    bool isSomeEval = false;
     for( int i = 0; i < 3; i++)
     {   
         for(int j = 0; j < 3; j++)
@@ -28,23 +37,30 @@ int _minimux(char **_b, char _p)
             if (_b[i][j] != EMPTY_CELL) continue;
             
             _b[i][j] = _p;
-            int curr_move_score = -_minimux(
-                _b, 
-                resolve_opponent_player(_p)
-            );
+
+            int curr_move_score = 0;
+            if (_recursion_depth < RECURSION_LIMIT)
+            {   
+                _recursion_depth++;
+
+                curr_move_score = _minimux(
+                    _b, 
+                    resolve_opponent_player(_p)
+                );
+
+                _recursion_depth--;
+            }
 
             if (curr_move_score > eval)
             {
                 eval = curr_move_score;
-                is_there_any = false;
+                isSomeEval = true;
             }
 
             _b[i][j] = EMPTY_CELL;
         }
     }
-
-    if (!is_there_any) return 0;
-
+    if(!isSomeEval) return 0;
     return eval;
 }
 
@@ -61,7 +77,7 @@ int comp_move(char **_b)
     }
 
     int move[] = { -1, -1};
-    int eval = -1;
+    int eval = -2;
     
     for (int i = 0; i < 3; i++)
     {   
@@ -69,9 +85,9 @@ int comp_move(char **_b)
         {
             if (_b[i][j] != EMPTY_CELL) continue;
 
-            char player = resolve_current_player();
+            char player = 'O';
             _b[i][j] = player;
-            int curr_move_score = -_minimux(
+            int curr_move_score = _minimux(
                 _b, 
                 resolve_opponent_player(player)
             );
