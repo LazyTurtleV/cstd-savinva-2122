@@ -54,11 +54,15 @@ void loop()
             break;
         }
         case MAN_vs_AI:
-        {
+        {   
+            set_up_ai();
+            combined_game_session();
             break;
         }
         case AI_vs_AI:
         {
+            set_up_ai();
+            AI_game_session();
             break;
         }
     }

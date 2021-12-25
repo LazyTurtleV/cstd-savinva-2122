@@ -10,6 +10,7 @@
 #include "math.h"
 
 #include "../headers/kernel.h"
+#include "../headers/ai.h"
 
 #define FIELD_SIZE 3
 char **_game_field;
@@ -70,6 +71,14 @@ void init_game(char *_load_info)
             _count_step();
         }
     }
+}
+
+void set_up_ai()
+{
+    char AI_mode = receive_mode();
+    set_complexity(AI_mode);
+    
+    Serial.write((char)1);
 }
 
 void end_game()

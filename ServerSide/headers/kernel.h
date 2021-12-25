@@ -19,6 +19,7 @@ void end_game();
 char receive_mode();
 
 int make_move(unsigned int _i, unsigned int _j);
+void set_up_ai();
 int game_status();
 char** get_board();
 void announce_player();
