@@ -29,14 +29,3 @@ TEST(ClientUSB, _set_interface_attributs)
     EXPECT_NO_THROW( _set_interface_attributs(_port_fd_, B9600, 0) );
 }
 
-TEST(ClientUSB, usb_write)
-{
-    EXPECT_GE(0, usb_write("a", 1));
-}
-
-TEST(ClientUSB, usb_read)
-{   
-    char *tmp = (char*)malloc(1);
-    EXPECT_GE(0, usb_read(tmp, 1));
-}
-
