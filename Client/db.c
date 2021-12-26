@@ -53,7 +53,10 @@ void close_db_conn()
 int save_data(char *_data, size_t _n)
 {
     char msg[512];
-    snprintf(msg, 512, "INSERT INTO game_saves.saves(data) VALUES(\'%s\')", _data);
+    char _tmp[512];
+    memset(&_tmp, 0, 512);
+    memcpy(&_tmp, _data, _n);
+    snprintf(msg, 512, "INSERT INTO game_saves.saves(data) VALUES(\'%s\')", _tmp);
     
     #if DEBUG
         puts(msg);
