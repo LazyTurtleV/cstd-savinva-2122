@@ -27,7 +27,10 @@ file(GLOB HDR
 # )
 add_compile_definitions(ARDUINO_MOCK=1)
 add_library(${TESTED_PRJ} STATIC ${SRC} ${HDR})
-target_link_libraries(${TESTED_PRJ} PRIVATE -Xlinker "--allow-multiple-definition")
+target_link_libraries(${TESTED_PRJ} 
+    mysqlclient 
+    -Xlinker "--allow-multiple-definition"
+)
 
 enable_testing()
 
