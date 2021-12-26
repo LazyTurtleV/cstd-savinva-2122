@@ -34,7 +34,7 @@ char* _parse_package(char *_package)
             puts("Error: the cell is already occupied!");
             break;
         case SAVE_REQUEST:
-            if(write_file(_package + 1, 9))
+            if(save_data(_package + 1, 9))
                 puts("Failed to make save...");
             else
                 puts("Success\n\n");
@@ -209,7 +209,7 @@ int select_mode()
             ___print_mem___(&response, 1);
     #endif
 
-    return response
+    return game_mode
         ? _select_AI_complexity()
         : response;
 }
