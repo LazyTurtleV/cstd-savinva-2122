@@ -50,17 +50,22 @@ void close_db_conn()
     }
 }
 
-void save_data(char *_data, size_t _n)
+int save_data(char *_data, size_t _n)
 {
     char msg[512];
     snprintf(msg, 512, "INSERT INTO game_saves.saves(data) VALUES(\'%s\')", _data);
     
-    puts(msg);
+    #if DEBUG
+        puts(msg);
+    #endif
 
     if (mysql_query(_db_connection, msg))
     {
         printf("Failed to execute query: %s\n", mysql_error(_db_connection));
+        return 1;
     }
+
+    return 0;
 }
 
 char** get_data()
