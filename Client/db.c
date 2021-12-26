@@ -7,6 +7,36 @@ MYSQL* _db_connection;
 
 #define SAVE_PCKG_SIZE 9
 
+void _create_db()
+{
+    if (mysql_query( _db_connection,"CREATE DATABASE IF NOT EXISTS game_saves"))
+    {
+        printf("Failed to execute query (create DB): %s\n", mysql_error(_db_connection));
+        return;
+    }
+
+    #if DEBUG
+        puts("DB successfully created (if doesn't exist)");
+    #endif
+}
+
+void _create_table()
+{
+    if (mysql_query( _db_connection,"USE game_saves"))
+    {
+        printf("Failed to execute query (use db): %s\n", mysql_error(_db_connection));
+        return;
+    }
+    if (mysql_query( _db_connection, "CREATE TABLE IF NOT EXISTS saves(ID INT PRIMARY KEY AUTO_INCREMENT, data VARCHAR(255))"))
+    {
+        printf("Failed to execute query (create table): %s\n", mysql_error(_db_connection));
+    }
+
+    #if DEBUG
+        puts("Table successfully created (if doesn't exist)");
+    #endif
+}
+
 void init_db()
 {
     _db_connection = mysql_init(NULL);
@@ -40,6 +70,9 @@ void init_db()
     #if DEBUG
         puts("Successfully established db connection");
     #endif
+
+    _create_db();
+    _create_table();
 }
 
 void close_db_conn()
