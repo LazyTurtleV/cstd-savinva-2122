@@ -177,6 +177,20 @@ int _detect_winner()
         if(isColumnComplete) return prev_el;
     }
 
+    if (
+        _game_field[0][0] == _game_field[1][1] &&
+        _game_field[1][1] == _game_field[2][2] && 
+        _game_field[0][0] != EMPTY_CELL
+    )
+        return _game_field[1][1];
+          
+    if (
+        _game_field[0][2] == _game_field[1][1] &&
+        _game_field[1][1] == _game_field[2][0] &&
+        _game_field[0][2] != EMPTY_CELL
+    )
+        return _game_field[1][1];
+
     return 0;
 }
 
