@@ -47,10 +47,10 @@ void close_db_conn()
 
 void save_data(char *_data, size_t _n)
 {
-    puts("SAVE DATA");
-
     char msg[512];
-    snprintf(msg, 512, "INSERT INTO save () VALUES()");
+    snprintf(msg, 512, "INSERT INTO game_saves.saves(data) VALUES(\'%s\')", _data);
+    
+    puts(msg);
 
     if (mysql_query(_db_connection, msg))
     {
@@ -77,12 +77,16 @@ char** get_data()
         return NULL;
     }
 
+    char **data = (char**)calloc(100, sizeof(char*));
     MYSQL_ROW row;
+    int i = 0;
     while((row = mysql_fetch_row(result)))
-    {
-        printf("it %s\n", row[2]);
+    {   
+        data[i] = (char*)malloc(1024);
+        strcpy(data[i], row[1]);
+        i++;
     }
 
-    fflush(stdout);
+    return data;
 }
 
