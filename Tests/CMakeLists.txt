@@ -21,8 +21,13 @@ file(GLOB HDR
 )
 
 #instance of project for tests
+# add_compile_options(
+#     -Wl
+#     --allow-multiple-definition
+# )
 add_compile_definitions(ARDUINO_MOCK=1)
 add_library(${TESTED_PRJ} STATIC ${SRC} ${HDR})
+target_link_libraries(${TESTED_PRJ} PRIVATE -Xlinker "--allow-multiple-definition")
 
 enable_testing()
 
