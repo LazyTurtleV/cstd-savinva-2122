@@ -175,7 +175,7 @@ int select_mode()
             ___print_mem___(&response, 1);
     #endif
 
-    return response
+    return game_mode
         ? _select_AI_complexity()
         : response;
 }
