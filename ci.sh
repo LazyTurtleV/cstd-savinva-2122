@@ -14,11 +14,19 @@ check_for_package()
     echo -e "\n"
 }
 
+echo -e "Check for HW build dependencies\n"
+
 check_for_package gcc-avr
 check_for_package binutils-avr
 check_for_package avr-libc
 check_for_package avrdude
 check_for_package arduino-mk
+
+echo -e "Check for DB dependecnies\n"
+
+check_for_package libmysqlclient-dev
+check_for_package zlib1g-dev
+check_for_package mysql-server
 
 if [ ! -d "./ServerSide/arduino-cmake" ]
 then

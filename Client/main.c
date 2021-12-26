@@ -6,13 +6,14 @@
 #include "headers/IO.h"
 #include "headers/USB.h"
 #include "headers/kernel.h"
+#include "headers/db.h"
 
 void _game_loop();
 
 int main() 
 {  
+    init_db();
     set_up_port("/dev/ttyUSB0");
-
     handshake();
 
     while(1)

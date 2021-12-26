@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 
 #include "headers/kernel.h"
 #include "headers/USB.h"
 #include "headers/file_IO.h"
+#include "headers/db.h"
 
 #define PACKAGE_SIZE 13
 #define BOARD_SIZE 3
@@ -32,7 +34,7 @@ char* _parse_package(char *_package)
             puts("Error: the cell is already occupied!");
             break;
         case SAVE_REQUEST:
-            if(write_file(_package + 1, 9))
+            if(save_data(_package + 1, 9))
                 puts("Failed to make save...");
             else
                 puts("Success\n\n");
@@ -63,11 +65,43 @@ char _render_board(char *_b)
     puts("");
 }
 
-void _load_game()
+void _print_save(char *_s)
 {
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            printf("%c ", _s[i*3 + j]);
+        }
+        puts("");
+    }
+}
+
+void _load_game()
+{   
+    char **saves = get_data();
+
+    puts("Select save");
+    for(int i = 0, cntr = 0; i < 100; i++)
+    {
+        if(saves[i])
+        {
+            puts("\n----------------------");
+            printf("%d:\n\n", cntr);
+            _print_save(saves[i]);
+
+            puts("\n----------------------");
+            cntr++;
+        }
+
+    }
+
+    int choice = getc(stdin) - '0';
+    getc(stdin); //dummy read in order to delete \n from in stream
+
     char *req = (char*)malloc(10);
     req[0] = LOAD_REQUEST;
-    read_file(req + 1, 9);
+    memcpy(req + 1, saves[choice], 9);
 
     usb_write(req, 10);
 
@@ -175,7 +209,7 @@ int select_mode()
             ___print_mem___(&response, 1);
     #endif
 
-    return response
+    return game_mode
         ? _select_AI_complexity()
         : response;
 }
