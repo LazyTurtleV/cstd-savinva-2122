@@ -1,6 +1,7 @@
 #include <mysql/mysql.h>
 #include <stdio.h>
 #include <string.h>
+#include "headers/kernel.h"
 
 MYSQL* _db_connection;
 
@@ -15,7 +16,9 @@ void init_db()
         return;
     }
 
-    puts("Successfully established mysql server connection");
+    #if DEBUG
+        puts("Successfully established mysql server connection");
+    #endif
 
     if (
         !mysql_real_connect(
@@ -34,7 +37,9 @@ void init_db()
         return;
     }
 
-    puts("Successfully established db connection");
+    #if DEBUG
+        puts("Successfully established db connection");
+    #endif
 }
 
 void close_db_conn()
